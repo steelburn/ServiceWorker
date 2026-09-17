@@ -2929,6 +2929,28 @@ spec: storage; urlPrefix: https://storage.spec.whatwg.org/
   </section>
 
   <section algorithm>
+    <h3 id="request-soft-update-algorithm"><dfn export>Request Soft Update</dfn></h3>
+
+    This algorithm allows other specifications to request that the user agent check a [=/service worker registration=] for updates.
+
+      : Input
+      :: |registration|, a [=/service worker registration=]
+      :: |requestingStorageKey|, a [=/storage key=]
+      :: |forceBypassCache|, an optional boolean, false by default
+      : Output
+      :: None
+
+      1. If |registration|'s [=service worker registration/storage key=] is not [=storage key/equal=] to |requestingStorageKey|, return.
+      1. If the user agent decides to limit the frequency of update checks for |registration|, return.
+
+          Note: The user agent may protect against excessive resource use by rate-limiting update checks or by treating several invocations for |registration| that occur close together as a single invocation. Callers cannot rely on this algorithm resulting in an update check.
+
+      1. Run the [=Soft Update=] algorithm with |registration| and |forceBypassCache|.
+
+      Note: Calling specifications are responsible for supplying the [=/storage key=] associated with their request.
+  </section>
+
+  <section algorithm>
     <h3 id="installation-algorithm"><dfn>Install</dfn></h3>
 
       : Input
